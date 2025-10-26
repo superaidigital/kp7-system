@@ -1,0 +1,171 @@
+import type { RequestData } from './types';
+
+export const mockRequests: RequestData[] = [
+  {
+    requestNumber: 'REQ-1689253401569',
+    submissionDate: '2023-07-13T12:03:21.569Z',
+    status: 'completed',
+    prefix: 'นาย',
+    otherPrefix: '',
+    firstName: 'สมชาย',
+    lastName: 'แข็งแกร่ง',
+    nationalId: '1234567890123',
+    position: 'นักวิเคราะห์นโยบายและแผน',
+    department: 'สำนักปลัด',
+    phone: '0812345678',
+    email: 'somchai.k@example.com',
+    purpose: 'เพื่อใช้ประกอบการสมัครศึกษาต่อ',
+    quantity: 2,
+    deliveryMethod: 'pickup',
+    shippingAddress: '',
+    notes: 'ผู้ยื่นคำร้องมารับเอกสารเรียบร้อยแล้ว',
+    lastUpdatedBy: 'admin',
+    statusHistory: [
+      { status: 'pending', date: '2023-07-13T12:03:21.569Z', updatedBy: 'System' },
+      { status: 'in_progress', date: '2023-07-13T14:00:00.000Z', updatedBy: 'hr', notes: 'กำลังตรวจสอบเอกสาร' },
+      { status: 'ready_for_pickup', date: '2023-07-14T10:30:00.000Z', updatedBy: 'hr', notes: 'เอกสารพร้อมรับ' },
+      { status: 'completed', date: '2023-07-14T16:20:00.000Z', updatedBy: 'admin', notes: 'ผู้ยื่นคำร้องมารับเอกสารเรียบร้อยแล้ว' }
+    ]
+  },
+  {
+    requestNumber: 'REQ-1689339801569',
+    submissionDate: '2023-07-14T15:10:01.569Z',
+    status: 'in_progress',
+    prefix: 'นางสาว',
+    otherPrefix: '',
+    firstName: 'อารียา',
+    lastName: 'ใจดี',
+    nationalId: '2345678901234',
+    position: 'ครูผู้ช่วย',
+    department: 'โรงเรียนในสังกัด อบจ.',
+    phone: '0823456789',
+    email: 'areeya.j@example.com',
+    purpose: 'เพื่อปรับวุฒิการศึกษา',
+    quantity: 1,
+    deliveryMethod: 'postal',
+    shippingAddress: '123 หมู่ 4 ต.โพธิ์ อ.เมือง จ.ศรีสะเกษ 33000',
+    notes: 'กำลังรอการตรวจสอบเอกสารแนบเพิ่มเติม',
+    lastUpdatedBy: 'hr',
+    statusHistory: [
+      { status: 'pending', date: '2023-07-14T15:10:01.569Z', updatedBy: 'System' },
+      { status: 'in_progress', date: '2023-07-15T09:00:00.000Z', updatedBy: 'hr', notes: 'กำลังรอการตรวจสอบเอกสารแนบเพิ่มเติม' }
+    ]
+  },
+  {
+    requestNumber: 'REQ-1689426201569',
+    submissionDate: '2023-07-15T18:16:41.569Z',
+    status: 'pending',
+    prefix: 'นาง',
+    otherPrefix: '',
+    firstName: 'มานี',
+    lastName: 'ศรีสุข',
+    nationalId: '3456789012345',
+    position: 'เจ้าพนักงานธุรการ',
+    department: 'กองคลัง',
+    phone: '0834567890',
+    email: 'manee.s@example.com',
+    purpose: 'เพื่อใช้ประกอบการยื่นกู้',
+    quantity: 3,
+    deliveryMethod: 'email',
+    shippingAddress: '',
+    statusHistory: [
+        { status: 'pending', date: '2023-07-15T18:16:41.569Z', updatedBy: 'System' }
+    ]
+  },
+   {
+    requestNumber: 'REQ-1689512601569',
+    submissionDate: '2023-07-16T21:23:21.569Z',
+    status: 'rejected',
+    prefix: 'นาย',
+    otherPrefix: '',
+    firstName: 'อดิศร',
+    lastName: 'รักความยุติธรรม',
+    nationalId: '4567890123456',
+    position: 'นิติกร',
+    department: 'สำนักปลัด',
+    phone: '0845678901',
+    email: 'adisorn.r@example.com',
+    purpose: 'เพื่อใช้ส่วนตัว',
+    quantity: 1,
+    deliveryMethod: 'pickup',
+    shippingAddress: '',
+    notes: 'ข้อมูลเลขประจำตัวประชาชนไม่ถูกต้อง',
+    lastUpdatedBy: 'admin',
+    statusHistory: [
+      { status: 'pending', date: '2023-07-16T21:23:21.569Z', updatedBy: 'System' },
+      { status: 'rejected', date: '2023-07-17T11:00:00.000Z', updatedBy: 'admin', notes: 'ข้อมูลเลขประจำตัวประชาชนไม่ถูกต้อง' }
+    ]
+  },
+  {
+    requestNumber: 'REQ-1689599001569',
+    submissionDate: '2023-07-17T00:30:01.569Z',
+    status: 'ready_for_pickup',
+    prefix: 'นางสาว',
+    otherPrefix: '',
+    firstName: 'กานดา',
+    lastName: 'งามยิ่ง',
+    nationalId: '5678901234567',
+    position: 'นักพัฒนาชุมชน',
+    department: 'กองสวัสดิการสังคม',
+    phone: '0856789012',
+    email: 'kanda.n@example.com',
+    purpose: 'เพื่อต่ออายุใบประกอบวิชาชีพ',
+    quantity: 1,
+    deliveryMethod: 'pickup',
+    shippingAddress: '',
+    notes: 'เอกสารพร้อมให้มารับที่เคาน์เตอร์ฝ่ายบุคคล',
+    lastUpdatedBy: 'hr',
+    statusHistory: [
+       { status: 'pending', date: '2023-07-17T00:30:01.569Z', updatedBy: 'System' },
+       { status: 'in_progress', date: '2023-07-17T10:00:00.000Z', updatedBy: 'hr' },
+       { status: 'ready_for_pickup', date: '2023-07-18T14:00:00.000Z', updatedBy: 'hr', notes: 'เอกสารพร้อมให้มารับที่เคาน์เตอร์ฝ่ายบุคคล' }
+    ]
+  },
+  {
+    requestNumber: 'REQ-1690000000000',
+    submissionDate: '2023-07-22T10:00:00.000Z',
+    status: 'hr_officer',
+    prefix: 'อื่นๆ',
+    otherPrefix: 'ดร.',
+    firstName: 'วิจัย',
+    lastName: 'ข้อมูล',
+    nationalId: '6789012345678',
+    position: 'ผู้อำนวยการ',
+    department: 'กองยุทธศาสตร์และงบประมาณ',
+    phone: '0867890123',
+    email: 'wichai.d@example.com',
+    purpose: 'เพื่อการวิเคราะห์ข้อมูลภายใน',
+    quantity: 1,
+    deliveryMethod: 'email',
+    shippingAddress: '',
+    notes: 'คำร้องนี้ถูกสร้างโดยผู้ดูแลระบบเพื่อการทดสอบ HR',
+    lastUpdatedBy: 'admin',
+    statusHistory: [
+        { status: 'pending', date: '2023-07-22T10:00:00.000Z', updatedBy: 'System' },
+        { status: 'hr_officer', date: '2023-07-22T10:05:00.000Z', updatedBy: 'admin', notes: 'คำร้องนี้ถูกสร้างโดยผู้ดูแลระบบเพื่อการทดสอบ HR' }
+    ]
+  },
+  {
+    requestNumber: 'REQ-1690100000000',
+    submissionDate: '2023-07-23T11:00:00.000Z',
+    status: 'admin_officer',
+    prefix: 'อื่นๆ',
+    otherPrefix: 'ผอ.',
+    firstName: 'ผู้ดูแล',
+    lastName: 'ระบบ',
+    nationalId: '7890123456789',
+    position: 'ผู้ดูแลระบบ',
+    department: 'ฝ่ายเทคโนโลยีสารสนเทศ',
+    phone: '0878901234',
+    email: 'admin.s@example.com',
+    purpose: 'เพื่อตรวจสอบการทำงานของระบบ',
+    quantity: 1,
+    deliveryMethod: 'email',
+    shippingAddress: '',
+    notes: 'คำร้องนี้ถูกสร้างโดยผู้ดูแลระบบเพื่อการทดสอบ Admin',
+    statusHistory: [
+        { status: 'pending', date: '2023-07-23T11:00:00.000Z', updatedBy: 'System' },
+        { status: 'admin_officer', date: '2023-07-23T11:05:00.000Z', updatedBy: 'admin', notes: 'คำร้องนี้ถูกสร้างโดยผู้ดูแลระบบเพื่อการทดสอบ Admin' }
+    ]
+  }
+];
