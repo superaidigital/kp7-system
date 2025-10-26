@@ -1,125 +1,138 @@
 <?php
 // api/submit_request.php
 
-// Allow requests from any origin (for development). 
-// For production, you should restrict this to your frontend's domain.
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+// Log entry point
+error_log("submit_request.php accessed at " . date('Y-m-d H:i:s'));
 
-// Include database connection
-require_once 'config.php';
+// No auth_check here, assuming this is a public endpoint
+require_once 'config.php'; // Use require_once
+error_log("config.php included successfully."); // Log after include
 
-// Get the posted data
-$data = json_decode(file_get_contents("php://input"));
+$raw_data = file_get_contents("php://input");
+error_log("Raw input data: " . $raw_data); // Log raw input
+$data = json_decode($raw_data);
 
-// -- VALIDATION (Simple validation, consider more robust validation for production) --
-if (
-    empty($data->prefix) ||
-    empty($data->firstName) ||
-    empty($data->lastName) ||
-    empty($data->nationalId) ||
-    empty($data->position) ||
-    empty($data->department) ||
-    empty($data->phone) ||
-    empty($data->email) ||
-    empty($data->purpose) ||
-    !isset($data->quantity) ||
-    empty($data->deliveryMethod)
-) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["status" => "error", "message" => "Incomplete data provided."]);
-    exit();
+// Check if JSON decoding was successful
+if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+    error_log("Failed to decode JSON input: " . json_last_error_msg());
+    send_json_response(["status" => "error", "message" => "Invalid JSON input."], 400);
 }
+error_log("JSON decoded successfully."); // Log successful decode
 
-// -- PREPARE DATA --
-$request_number = "REQ-" . time(); // Generate a unique request number
-$submission_date = date('Y-m-d H:i:s');
-$initial_status = 'pending';
+// Basic Validation - More specific validation recommended
+// ... (validation code remains the same) ...
+if (
+    !isset($data->prefix) || !is_string($data->prefix) ||
+    !isset($data->firstName) || !is_string($data->firstName) || empty(trim($data->firstName)) ||
+    !isset($data->lastName) || !is_string($data->lastName) || empty(trim($data->lastName)) ||
+    !isset($data->nationalId) || !is_string($data->nationalId) || !preg_match('/^\d{13}$/', $data->nationalId) ||
+    !isset($data->position) || !is_string($data->position) || empty(trim($data->position)) ||
+    !isset($data->department) || !is_string($data->department) || empty(trim($data->department)) ||
+    !isset($data->phone) || !is_string($data->phone) || !preg_match('/^\d{10}$/', $data->phone) ||
+    !isset($data->email) || !filter_var($data->email, FILTER_VALIDATE_EMAIL) ||
+    !isset($data->purpose) || !is_string($data->purpose) || empty(trim($data->purpose)) ||
+    !isset($data->quantity) || !is_numeric($data->quantity) || intval($data->quantity) < 1 ||
+    !isset($data->deliveryMethod) || !in_array($data->deliveryMethod, ['pickup', 'postal', 'email']) ||
+    ($data->deliveryMethod === 'postal' && (!isset($data->shippingAddress) || empty(trim($data->shippingAddress))))
+) {
+    error_log("Validation failed."); // Log validation failure
+    send_json_response(["status" => "error", "message" => "Incomplete or invalid data provided."], 400);
+}
+error_log("Validation passed."); // Log validation success
 
-// Sanitize and assign variables
-$prefix = $mysqli->real_escape_string($data->prefix);
-$other_prefix = isset($data->otherPrefix) ? $mysqli->real_escape_string($data->otherPrefix) : null;
-$first_name = $mysqli->real_escape_string($data->firstName);
-$last_name = $mysqli->real_escape_string($data->lastName);
-$national_id = $mysqli->real_escape_string($data->nationalId);
-$position = $mysqli->real_escape_string($data->position);
-$department = $mysqli->real_escape_string($data->department);
-$phone = $mysqli->real_escape_string($data->phone);
-$email = $mysqli->real_escape_string($data->email);
-$purpose = $mysqli->real_escape_string($data->purpose);
+// Assign variables (consider using filter_var for sanitization if needed, though prepared statements help)
+// ... (variable assignment remains the same) ...
+$requestNumber = "REQ-" . time() ."-". random_int(100,999);
+$submissionDate = date('Y-m-d H:i:s');
+$initialStatus = 'pending';
+$updatedBySystem = 'System';
+$prefix = $data->prefix;
+$otherPrefix = ($prefix === 'อื่นๆ' && isset($data->otherPrefix)) ? trim($data->otherPrefix) : null;
+$firstName = trim($data->firstName);
+$lastName = trim($data->lastName);
+$nationalId = $data->nationalId;
+$position = trim($data->position);
+$department = trim($data->department);
+$phone = $data->phone;
+$email = $data->email;
+$purpose = trim($data->purpose);
 $quantity = intval($data->quantity);
-$delivery_method = $mysqli->real_escape_string($data->deliveryMethod);
-$shipping_address = ($delivery_method === 'postal' && isset($data->shippingAddress)) ? $mysqli->real_escape_string($data->shippingAddress) : null;
+$deliveryMethod = $data->deliveryMethod;
+$shippingAddress = ($deliveryMethod === 'postal') ? trim($data->shippingAddress) : null;
 
-// -- DATABASE INSERTION using PREPARED STATEMENTS --
+// Use global $conn from config.php
+global $conn;
+error_log("Database connection object obtained."); // Log DB connection check
 
 // Start transaction
-$mysqli->begin_transaction();
+if (!$conn->begin_transaction()) {
+     error_log("Failed to begin transaction: " . $conn->error);
+     handle_error("Failed to begin transaction", $conn);
+}
+error_log("Transaction started."); // Log transaction start
 
 try {
-    // 1. Insert into `requests` table
-    $sql1 = "INSERT INTO requests (request_number, submission_date, status, prefix, other_prefix, first_name, last_name, national_id, position, department, phone, email, purpose, quantity, delivery_method, shipping_address, last_updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    $stmt1 = $mysqli->prepare($sql1);
+    // 1. Insert into `requests` table using Prepared Statements
+    error_log("Preparing statement for requests table..."); // Log before prepare
+    $sql1 = "INSERT INTO requests (requestNumber, submissionDate, status, prefix, otherPrefix, firstName, lastName, nationalId, position, department, phone, email, purpose, quantity, deliveryMethod, shippingAddress, lastUpdatedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt1 = $conn->prepare($sql1);
     if ($stmt1 === false) {
-        throw new Exception("Prepare failed: " . $mysqli->error);
+        throw new Exception("Prepare failed (requests): " . $conn->error);
     }
-
-    $updatedBySystem = 'System';
-    $stmt1->bind_param("sssssssssssssisss", 
-        $request_number, $submission_date, $initial_status, $prefix, $other_prefix, $first_name, $last_name, $national_id, 
-        $position, $department, $phone, $email, $purpose, $quantity, $delivery_method, $shipping_address, $updatedBySystem
+    error_log("Statement prepared successfully (requests). Binding params..."); // Log after prepare
+    $stmt1->bind_param("sssssssssssssisss",
+        $requestNumber, $submissionDate, $initialStatus, $prefix, $otherPrefix, $firstName, $lastName, $nationalId,
+        $position, $department, $phone, $email, $purpose, $quantity, $deliveryMethod, $shippingAddress, $updatedBySystem
     );
-
+    error_log("Params bound successfully (requests). Executing..."); // Log after bind
     if (!$stmt1->execute()) {
-        throw new Exception("Execute failed: " . $stmt1->error);
+        throw new Exception("Execute failed (requests): " . $stmt1->error);
     }
-    
-    // Get the ID of the newly inserted request
-    $request_id = $mysqli->insert_id;
+    error_log("Statement executed successfully (requests). Closing statement..."); // Log after execute
     $stmt1->close();
+    error_log("Statement closed (requests)."); // Log after close
 
-    // 2. Insert into `status_history` table
-    $sql2 = "INSERT INTO status_history (request_id, status, date, updated_by) VALUES (?, ?, ?, ?)";
-    
-    $stmt2 = $mysqli->prepare($sql2);
-    if ($stmt2 === false) {
-        throw new Exception("Prepare failed: " . $mysqli->error);
+    // 2. Insert into `status_history` table using Prepared Statements
+    error_log("Preparing statement for status_history table..."); // Log before prepare history
+    $sql2 = "INSERT INTO status_history (requestNumber, status, date, updatedBy) VALUES (?, ?, ?, ?)";
+    $stmt2 = $conn->prepare($sql2);
+     if ($stmt2 === false) {
+        throw new Exception("Prepare failed (history): " . $conn->error);
     }
-    
-    $stmt2->bind_param("isss", $request_id, $initial_status, $submission_date, $updatedBySystem);
-
+     error_log("Statement prepared successfully (history). Binding params..."); // Log after prepare history
+    $stmt2->bind_param("ssss", $requestNumber, $initialStatus, $submissionDate, $updatedBySystem);
+    error_log("Params bound successfully (history). Executing..."); // Log after bind history
     if (!$stmt2->execute()) {
-        throw new Exception("Execute failed: " . $stmt2->error);
+        throw new Exception("Execute failed (history): " . $stmt2->error);
     }
+    error_log("Statement executed successfully (history). Closing statement..."); // Log after execute history
     $stmt2->close();
-    
-    // If everything is fine, commit the transaction
-    $mysqli->commit();
+    error_log("Statement closed (history). Committing transaction..."); // Log after close history
 
-    // -- SEND SUCCESS RESPONSE --
-    http_response_code(201); // Created
-    echo json_encode([
-        "status" => "success", 
+    // Commit transaction
+    if (!$conn->commit()) {
+         throw new Exception("Transaction commit failed: " . $conn->error);
+    }
+    error_log("Transaction committed successfully."); // Log commit success
+
+    // Send Success Response
+    error_log("Sending success response..."); // Log before success response
+    send_json_response([
+        "status" => "success",
         "message" => "Request submitted successfully.",
-        "requestNumber" => $request_number
-    ]);
+        "requestNumber" => $requestNumber
+    ], 201); // 201 Created
 
 } catch (Exception $e) {
-    // If any query fails, rollback the transaction
-    $mysqli->rollback();
-    
-    // -- SEND ERROR RESPONSE --
-    http_response_code(500); // Internal Server Error
-    echo json_encode([
-        "status" => "error", 
-        "message" => "Database error: " . $e->getMessage()
-    ]);
+    // Log detailed error before rollback
+    error_log("Exception caught: " . $e->getMessage());
+    // Rollback transaction on error
+    $conn->rollback();
+    error_log("Transaction rolled back."); // Log rollback
+    // Log detailed error, send generic message
+    handle_error("Submit request database error: " . $e->getMessage(), $conn);
 }
 
-// Close connection
-$mysqli->close();
+// Note: send_json_response or handle_error will exit, so connection closing is handled there.
 ?>
+

@@ -1,0 +1,101 @@
+[26-Oct-2025 09:02:47 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'notes' in 'field list' in C:\xampp\htdocs\kp7-system\api\check_status.php:19
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\check_status.php(19): mysqli->prepare('SELECT id, requ...')
+#1 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\check_status.php on line 19
+[26-Oct-2025 09:05:14 Europe/Berlin] Database error during check status: Unknown column 'notes' in 'field list' (Code: 1054)
+[26-Oct-2025 09:05:14 Europe/Berlin] Additional context error: Unknown column 'notes' in 'field list'
+[26-Oct-2025 09:05:14 Europe/Berlin] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\kp7-system\api\config.php:100
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\config.php(130): send_json_response(Array, 500)
+#1 C:\xampp\htdocs\kp7-system\api\check_status.php(110): handle_error('Database error ...', Object(mysqli))
+#2 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\config.php on line 100
+[26-Oct-2025 09:06:05 Europe/Berlin] Database error during check status: Unknown column 'notes' in 'field list' (Code: 1054)
+[26-Oct-2025 09:06:05 Europe/Berlin] Additional context error: Unknown column 'notes' in 'field list'
+[26-Oct-2025 09:06:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\kp7-system\api\config.php:100
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\config.php(130): send_json_response(Array, 500)
+#1 C:\xampp\htdocs\kp7-system\api\check_status.php(110): handle_error('Database error ...', Object(mysqli))
+#2 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\config.php on line 100
+[26-Oct-2025 09:08:24 Europe/Berlin] Database error during check status: Unknown column 'notes' in 'field list' (Code: 1054) | RequestNumber: REQ-1761464294-584
+[26-Oct-2025 09:08:24 Europe/Berlin] Additional context error: Unknown column 'notes' in 'field list'
+[26-Oct-2025 09:08:24 Europe/Berlin] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\kp7-system\api\config.php:100
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\config.php(130): send_json_response(Array, 500)
+#1 C:\xampp\htdocs\kp7-system\api\check_status.php(111): handle_error('Database error ...', Object(mysqli))
+#2 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\config.php on line 100
+[26-Oct-2025 09:11:55 Europe/Berlin] config.php included successfully.
+[26-Oct-2025 09:11:55 Europe/Berlin] Raw input data: {"prefix":"นาย","otherPrefix":"","firstName":"ปฐวีกานต์","lastName":"ศรีคราม","nationalId":"1332000000946","position":"นักวิชาการคอมพิวเตอร์ปฏิบัติงาน","department":"กองยุทธศาสตร์และงบประมาณ","phone":"0981051534","email":"it@sisaket.go.th","purpose":"งาน","quantity":1,"deliveryMethod":"pickup","shippingAddress":""}
+[26-Oct-2025 09:11:55 Europe/Berlin] JSON decoded successfully.
+[26-Oct-2025 09:11:55 Europe/Berlin] Validation passed.
+[26-Oct-2025 09:11:55 Europe/Berlin] Database connection object obtained.
+[26-Oct-2025 09:11:55 Europe/Berlin] Transaction started.
+[26-Oct-2025 09:11:55 Europe/Berlin] Preparing statement for requests table...
+[26-Oct-2025 09:11:55 Europe/Berlin] Statement prepared successfully (requests). Binding params...
+[26-Oct-2025 09:11:55 Europe/Berlin] Params bound successfully (requests). Executing...
+[26-Oct-2025 09:11:55 Europe/Berlin] Statement executed successfully (requests). Closing statement...
+[26-Oct-2025 09:11:55 Europe/Berlin] Statement closed (requests).
+[26-Oct-2025 09:11:55 Europe/Berlin] Preparing statement for status_history table...
+[26-Oct-2025 09:11:55 Europe/Berlin] Statement prepared successfully (history). Binding params...
+[26-Oct-2025 09:11:55 Europe/Berlin] Params bound successfully (history). Executing...
+[26-Oct-2025 09:11:55 Europe/Berlin] Statement executed successfully (history). Closing statement...
+[26-Oct-2025 09:11:55 Europe/Berlin] Statement closed (history). Committing transaction...
+[26-Oct-2025 09:11:55 Europe/Berlin] Transaction committed successfully.
+[26-Oct-2025 09:11:55 Europe/Berlin] Sending success response...
+[26-Oct-2025 09:11:57 Europe/Berlin] Database error during check status: Unknown column 'notes' in 'field list' (Code: 1054) | RequestNumber: REQ-1761466315-454
+[26-Oct-2025 09:11:57 Europe/Berlin] Additional context error: Unknown column 'notes' in 'field list'
+[26-Oct-2025 09:11:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\kp7-system\api\config.php:100
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\config.php(130): send_json_response(Array, 500)
+#1 C:\xampp\htdocs\kp7-system\api\check_status.php(111): handle_error('Database error ...', Object(mysqli))
+#2 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\config.php on line 100
+[26-Oct-2025 09:12:04 Europe/Berlin] Database error during check status: Unknown column 'notes' in 'field list' (Code: 1054) | RequestNumber: REQ-1761464294-584
+[26-Oct-2025 09:12:04 Europe/Berlin] Additional context error: Unknown column 'notes' in 'field list'
+[26-Oct-2025 09:12:04 Europe/Berlin] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\kp7-system\api\config.php:100
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\config.php(130): send_json_response(Array, 500)
+#1 C:\xampp\htdocs\kp7-system\api\check_status.php(111): handle_error('Database error ...', Object(mysqli))
+#2 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\config.php on line 100
+[26-Oct-2025 09:12:09 Europe/Berlin] Database error during check status: Unknown column 'notes' in 'field list' (Code: 1054) | RequestNumber: REQ-1761464294-584
+[26-Oct-2025 09:12:09 Europe/Berlin] Additional context error: Unknown column 'notes' in 'field list'
+[26-Oct-2025 09:12:09 Europe/Berlin] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\kp7-system\api\config.php:100
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\config.php(130): send_json_response(Array, 500)
+#1 C:\xampp\htdocs\kp7-system\api\check_status.php(111): handle_error('Database error ...', Object(mysqli))
+#2 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\config.php on line 100
+[26-Oct-2025 09:20:19 Europe/Berlin] Database connection successful.
+[26-Oct-2025 09:20:19 Europe/Berlin] config.php included successfully.
+[26-Oct-2025 09:20:19 Europe/Berlin] Raw input data: {"prefix":"นาย","otherPrefix":"","firstName":"ปฐวีกานต์","lastName":"ศรีคราม","nationalId":"1332000000946","position":"นักวิชาการคอมพิวเตอร์ปฏิบัติงาน","department":"กองยุทธศาสตร์และงบประมาณ","phone":"0981051534","email":"maxmumi@gmail.com","purpose":"งาน","quantity":1,"deliveryMethod":"pickup","shippingAddress":""}
+[26-Oct-2025 09:20:19 Europe/Berlin] JSON decoded successfully.
+[26-Oct-2025 09:20:19 Europe/Berlin] Validation passed.
+[26-Oct-2025 09:20:19 Europe/Berlin] Database connection object obtained.
+[26-Oct-2025 09:20:19 Europe/Berlin] Transaction started.
+[26-Oct-2025 09:20:19 Europe/Berlin] Preparing statement for requests table...
+[26-Oct-2025 09:20:19 Europe/Berlin] Statement prepared successfully (requests). Binding params...
+[26-Oct-2025 09:20:19 Europe/Berlin] Params bound successfully (requests). Executing...
+[26-Oct-2025 09:20:19 Europe/Berlin] Statement executed successfully (requests). Closing statement...
+[26-Oct-2025 09:20:19 Europe/Berlin] Statement closed (requests).
+[26-Oct-2025 09:20:19 Europe/Berlin] Preparing statement for status_history table...
+[26-Oct-2025 09:20:19 Europe/Berlin] Statement prepared successfully (history). Binding params...
+[26-Oct-2025 09:20:19 Europe/Berlin] Params bound successfully (history). Executing...
+[26-Oct-2025 09:20:19 Europe/Berlin] Statement executed successfully (history). Closing statement...
+[26-Oct-2025 09:20:19 Europe/Berlin] Statement closed (history). Committing transaction...
+[26-Oct-2025 09:20:19 Europe/Berlin] Transaction committed successfully.
+[26-Oct-2025 09:20:19 Europe/Berlin] Sending success response...
+[26-Oct-2025 09:20:21 Europe/Berlin] Database connection successful.
+[26-Oct-2025 09:20:21 Europe/Berlin] Error handled: Database error during check status: Unknown column 'notes' in 'field list' (Code: 1054) | RequestNumber: REQ-1761466819-553
+[26-Oct-2025 09:20:21 Europe/Berlin] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\kp7-system\api\config.php:101
+Stack trace:
+#0 C:\xampp\htdocs\kp7-system\api\config.php(101): mysqli->close()
+#1 C:\xampp\htdocs\kp7-system\api\config.php(123): send_json_response(Array, 500)
+#2 C:\xampp\htdocs\kp7-system\api\check_status.php(111): handle_error('Database error ...', Object(mysqli))
+#3 {main}
+  thrown in C:\xampp\htdocs\kp7-system\api\config.php on line 101
+[26-Oct-2025 09:20:31 Europe/Berlin] Database connection successful.
+[26-Oct-2025 09:20:31 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\kp7-system\api\login.php on line 10
